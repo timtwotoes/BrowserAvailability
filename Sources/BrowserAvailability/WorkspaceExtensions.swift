@@ -15,7 +15,11 @@ extension NSWorkspace {
             // A shadow application, not located in the Applications folder, pops up. Also Safari does not
             // contain a provision profile. Therefore it gets special attention.
             if url.lastPathComponent.lowercased() == "safari.app" {
-                return NSWorkspace.shared.urlForApplication(withBundleIdentifier: "com.apple.Safari")!
+                if FileManager.default.fileExists(atPath: "/Applications/Safari.app/") {
+                    return URL(filePath: "/Applications/Safari.app/", directoryHint: .isDirectory)
+                } else {
+                    return NSWorkspace.shared.urlForApplication(withBundleIdentifier: "com.apple.Safari")
+                }
             }
             
             guard let bundle = Bundle(url: url), let provisionProfileURL = bundle.provisionProfileURL else {
