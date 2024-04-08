@@ -2,14 +2,14 @@
 
 Detect available browsers on macOS and which is the default.
 
+## Requirements
+
+macOS 13 (Ventura)
+
 ## Resources
-[Uniform Type Identifiers - a reintroduction](https://developer.apple.com/videos/play/tech-talks/10696) - [Transcript](/Resources/tech-talks-10696.txt)
+[Requirements for an application to become a default browser](https://developer.apple.com/documentation/xcode/preparing-your-app-to-be-the-default-browser)
 
-A tech talk (video) that describes how Uniform Type Identifiers work on Apple platforms. Included a transcript for posterity.
-
-[Uniform Type Identifiers documentation](https://developer.apple.com/documentation/uniformtypeidentifiers)
-
-Apple's documentation for uniform type identifiers.
+Apple's requirements to become a default browser.
 
 [Cryptographically sign and encrypt S/MIME messages](https://developer.apple.com/documentation/security/cryptographic_message_syntax_services)
 
@@ -19,6 +19,22 @@ Apple's documentation for encoding and decoding CMS. Application entitlements is
 
 An example using CMS decoder in swift.
 
-[Requirements for an application to become a default browser](https://developer.apple.com/documentation/xcode/preparing-your-app-to-be-the-default-browser)
+[Debugging entitlements on macOS](https://developer.apple.com/documentation/bundleresources/entitlements/diagnosing_issues_with_entitlements)
 
-Apple's requirements to become a default browser.
+Describes how to decode entitlements using commandline tools on macOS.
+
+[Uniform Type Identifiers - a reintroduction](https://developer.apple.com/videos/play/tech-talks/10696) - [Transcript](/Resources/tech-talks-10696.txt)
+
+A tech talk (video) that describes how Uniform Type Identifiers work on Apple platforms. Included a transcript for posterity.
+
+[Uniform Type Identifiers documentation](https://developer.apple.com/documentation/uniformtypeidentifiers)
+
+Apple's documentation for uniform type identifiers.
+
+[Unsafe Swift](https://developer.apple.com/videos/play/wwdc2020/10648)
+
+Working with Swift and C API's.
+
+[Safely manage pointers in Swift](https://developer.apple.com/videos/play/wwdc2020/10167)
+
+How to work with managed pointers in Swift.
