@@ -2,6 +2,14 @@
 
 Detect available browsers on macOS and which is the default.
 
+## Usage
+
+´´´swift
+let urls = NSWorkspace.shared.urlsForBrowsers()
+´´´
+
+The first url in the array, is the url to the currently registered default browser on the system.
+
 ## Requirements
 
 macOS 13 (Ventura)
