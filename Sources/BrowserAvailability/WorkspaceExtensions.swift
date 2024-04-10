@@ -41,4 +41,15 @@ extension NSWorkspace {
             return nil
         }
     }
+    
+    /// Returns a list of all registered browsers capable of being set as a default browser on the system.
+    ///
+    /// The first browser bundle returned is also the systems current default browser.
+    ///
+    /// - Returns: Application bundles
+    public func bundlesForBrowsers() -> [Bundle] {
+        return urlsForBrowsers().compactMap { url in
+            return Bundle(url: url)
+        }
+    }
 }

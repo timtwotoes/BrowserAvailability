@@ -4,8 +4,20 @@ Detect available browsers on macOS and which is the default.
 
 ## Usage
 
+Example showing how to get all browser URLs.
+
 ```swift
+import BrowserAvailability
+
 let urls = NSWorkspace.shared.urlsForBrowsers()
+```
+
+Example showing how to get all browser bundles.
+
+```swift
+import BrowserAvailability
+
+let bundles = NSWorkspace.shared.bundlesForBrowsers()
 ```
 
 The first url in the array, is the url to the currently registered default browser on the system.
