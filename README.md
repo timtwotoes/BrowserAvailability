@@ -58,3 +58,7 @@ Working with Swift and C API's.
 [Safely manage pointers in Swift](https://developer.apple.com/videos/play/wwdc2020/10167)
 
 How to work with managed pointers in Swift.
+
+[Managing the default browser](https://community.jamf.com/t5/tech-thoughts/managing-the-default-browser-in-macos/ba-p/297482)
+
+Among other thing - shows how to use the open command utility to set the default browser  
