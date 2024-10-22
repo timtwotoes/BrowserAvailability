@@ -40,10 +40,10 @@ extension NSWorkspace {
             guard let name = info["CFBundleName"] as? String else {
                 continue
             }
-            guard let localizedName = info["CFBundleLocalizedName"] as? String else {
+            guard let localizedName = info["CFBundleDisplayName"] as? String else {
                 continue
             }
-            guard let identifier = browser.bundleIdentifier else {
+            guard let identifier = info["CFBundleIdentifier"] as? String else {
                 continue
             }
             guard let iconURL = iconURL(from: browser) else {
