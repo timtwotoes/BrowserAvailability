@@ -1,6 +1,6 @@
 import AppKit
 
-public struct Browser: Identifiable {
+public struct Browser: Identifiable, Hashable {
     public let id: String
     public let url: URL
     public let name: String
