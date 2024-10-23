@@ -1,7 +1,7 @@
 import AppKit
 
 public struct Browser: Identifiable, Hashable {
-    public let id: String
+    public let id: Int
     public let url: URL
     public let name: String
     public let localizedName: String
@@ -9,8 +9,8 @@ public struct Browser: Identifiable, Hashable {
     public let isSystemDefault: Bool
     public let iconURL: URL
     
-    public init(url: URL, name: String, localizedName: String, identifier: String, isSystemDefault: Bool, iconURL: URL) {
-        self.id = isSystemDefault ? "\(identifier).default" : identifier
+    public init(id: Int, url: URL, name: String, localizedName: String, identifier: String, isSystemDefault: Bool, iconURL: URL) {
+        self.id = id
         self.url = url
         self.name = name
         self.localizedName = localizedName

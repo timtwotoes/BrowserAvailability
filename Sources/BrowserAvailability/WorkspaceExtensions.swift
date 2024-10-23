@@ -30,6 +30,7 @@ extension NSWorkspace {
     public func allRegisteredBrowsers(appendDefault: Bool = false) -> [Browser] {
         let browsers = bundlesForBrowsers()
         var allBrowsers = [Browser]()
+        var nextId = 0
         
         for (index, browser) in browsers.enumerated() {
             let isDefault = index == 0
@@ -50,10 +51,11 @@ extension NSWorkspace {
                 continue
             }
             
-            allBrowsers.append(Browser(url: url, name: name, localizedName: localizedName, identifier: identifier, isSystemDefault: isDefault, iconURL: iconURL))
-            
+            allBrowsers.append(Browser(id: nextId, url: url, name: name, localizedName: localizedName, identifier: identifier, isSystemDefault: isDefault, iconURL: iconURL))
+            nextId += 1
             if isDefault && appendDefault {
-                allBrowsers.append(Browser(url: url, name: name, localizedName: localizedName, identifier: identifier, isSystemDefault: false, iconURL: iconURL))
+                allBrowsers.append(Browser(id: nextId, url: url, name: name, localizedName: localizedName, identifier: identifier, isSystemDefault: false, iconURL: iconURL))
+                nextId += 1
             }
         }
         
