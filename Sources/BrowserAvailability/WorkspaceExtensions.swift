@@ -11,7 +11,6 @@ extension NSWorkspace {
         return bundle.url(forResource: iconFilename, withExtension: "icns")
     }
     
-    
     /// Returns a list of all registered browsers along with metadata about the application.
     ///
     /// If appendDefault is true, the default browser will be appended with the default flag set to false.
@@ -22,36 +21,33 @@ extension NSWorkspace {
     /// - Parameter appendDefault: Appends the default browser as a non-default browser to list
     /// - Returns: List of browsers
     public func allRegisteredBrowsers(appendDefault: Bool = false) -> [Browser] {
-        let browsers = bundlesForBrowsers()
+        let browserURLs = NSWorkspace.shared.urlsForBrowsers()
         var allBrowsers = [Browser]()
 
-        
-        for (index, browser) in browsers.enumerated() {
+        for (index, url) in browserURLs.enumerated() {
             let isDefault = index == 0
-            let url = browser.bundleURL
-            guard let info = browser.infoDictionary else {
-                continue
-            }
-            guard let name = info["CFBundleName"] as? String else {
-                continue
-            }
-            guard let localizedName = info["CFBundleDisplayName"] as? String else {
-                continue
-            }
-            guard let identifier = info["CFBundleIdentifier"] as? String else {
-                continue
-            }
-            guard let iconURL = iconURL(from: browser) else {
+            let resourceKeys: Set<URLResourceKey> = [.nameKey, .localizedNameKey, .effectiveIconKey]
+
+            guard let bundle = Bundle(url: url), let bundleIdentifier = bundle.bundleIdentifier else {
                 continue
             }
             
-            allBrowsers.append(Browser(url: url, name: name, localizedName: localizedName, identifier: identifier, isSystemDefault: isDefault, iconURL: iconURL))
-            
-            if isDefault && appendDefault {
-                allBrowsers.append(Browser(url: url, name: name, localizedName: localizedName, identifier: identifier, isSystemDefault: false, iconURL: iconURL))
+            if let resourceValues = try? url.resourceValues(forKeys: resourceKeys) {
+                guard let name = resourceValues.name else {
+                    continue
+                }
+                guard let localizedName = resourceValues.localizedName else {
+                    continue
+                }
+                guard let iconImage = resourceValues.effectiveIcon as? NSImage else {
+                    continue
+                }
+                
+                let browser = Browser(url: url, name: name, localizedName: localizedName, identifier: bundleIdentifier, isSystemDefault: isDefault, iconImage: iconImage)
+                allBrowsers.append(browser)
             }
         }
-        
+                
         return allBrowsers
     }
     

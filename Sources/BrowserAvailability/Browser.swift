@@ -6,7 +6,7 @@ public struct Browser: Identifiable {
     public let localizedName: String
     public let identifier: String
     public let isSystemDefault: Bool
-    public let iconURL: URL
+    public let iconImage: NSImage
     
     public var id: Int {
         var hasher = Hasher()
@@ -14,13 +14,13 @@ public struct Browser: Identifiable {
         return hasher.finalize()
     }
     
-    public init(url: URL, name: String, localizedName: String, identifier: String, isSystemDefault: Bool, iconURL: URL) {
+    public init(url: URL, name: String, localizedName: String, identifier: String, isSystemDefault: Bool, iconImage: NSImage) {
         self.url = url
         self.name = name
         self.localizedName = localizedName
         self.identifier = identifier
         self.isSystemDefault = isSystemDefault
-        self.iconURL = iconURL
+        self.iconImage = iconImage
     }
     
     public func open(url: URL) {
