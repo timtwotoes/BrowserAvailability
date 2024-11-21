@@ -1,7 +1,6 @@
 import AppKit
 
-public struct Browser: Identifiable, Hashable {
-    public let id: Int
+public struct Browser: Identifiable {
     public let url: URL
     public let name: String
     public let localizedName: String
@@ -9,8 +8,13 @@ public struct Browser: Identifiable, Hashable {
     public let isSystemDefault: Bool
     public let iconURL: URL
     
-    public init(id: Int, url: URL, name: String, localizedName: String, identifier: String, isSystemDefault: Bool, iconURL: URL) {
-        self.id = id
+    public var id: Int {
+        var hasher = Hasher()
+        hash(into: &hasher)
+        return hasher.finalize()
+    }
+    
+    public init(url: URL, name: String, localizedName: String, identifier: String, isSystemDefault: Bool, iconURL: URL) {
         self.url = url
         self.name = name
         self.localizedName = localizedName
@@ -28,8 +32,13 @@ public struct Browser: Identifiable, Hashable {
     }
 }
 
-extension Browser: Equatable {
+extension Browser: Equatable, Hashable {
     public static func == (lhs: Browser, rhs: Browser) -> Bool {
-        return lhs.identifier == rhs.identifier
+        return lhs.identifier == rhs.identifier && lhs.isSystemDefault == rhs.isSystemDefault
+    }
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(identifier)
+        hasher.combine(isSystemDefault)
     }
 }

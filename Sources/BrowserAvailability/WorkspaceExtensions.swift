@@ -4,17 +4,11 @@ import Security
 
 extension NSWorkspace {
     private func iconURL(from bundle: Bundle) -> URL? {
-        guard let iconPath = bundle.infoDictionary?["CFBundleIconFile"] as? String else {
+        guard let iconFilename = bundle.infoDictionary?["CFBundleIconFile"] as? String else {
             return nil
         }
         
-        let components = iconPath.components(separatedBy: CharacterSet(["."]))
-        
-        if components.count == 1 {
-            return bundle.url(forResource: components[0], withExtension: "icns")
-        } else {
-            return bundle.url(forResource: components[0], withExtension: components[1])
-        }
+        return bundle.url(forResource: iconFilename, withExtension: "icns")
     }
     
     
@@ -26,11 +20,11 @@ extension NSWorkspace {
     /// - note:The first browser returned is also the systems current default browser.
     ///
     /// - Parameter appendDefault: Appends the default browser as a non-default browser to list
-    /// - Returns: <#description#>
+    /// - Returns: List of browsers
     public func allRegisteredBrowsers(appendDefault: Bool = false) -> [Browser] {
         let browsers = bundlesForBrowsers()
         var allBrowsers = [Browser]()
-        var nextId = 0
+
         
         for (index, browser) in browsers.enumerated() {
             let isDefault = index == 0
@@ -51,11 +45,10 @@ extension NSWorkspace {
                 continue
             }
             
-            allBrowsers.append(Browser(id: nextId, url: url, name: name, localizedName: localizedName, identifier: identifier, isSystemDefault: isDefault, iconURL: iconURL))
-            nextId += 1
+            allBrowsers.append(Browser(url: url, name: name, localizedName: localizedName, identifier: identifier, isSystemDefault: isDefault, iconURL: iconURL))
+            
             if isDefault && appendDefault {
-                allBrowsers.append(Browser(id: nextId, url: url, name: name, localizedName: localizedName, identifier: identifier, isSystemDefault: false, iconURL: iconURL))
-                nextId += 1
+                allBrowsers.append(Browser(url: url, name: name, localizedName: localizedName, identifier: identifier, isSystemDefault: false, iconURL: iconURL))
             }
         }
         
