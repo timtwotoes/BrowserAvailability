@@ -39,12 +39,26 @@ extension NSWorkspace {
                 guard let localizedName = resourceValues.localizedName else {
                     continue
                 }
+                
+                // localizedName from url properties respects user preferences. If the finder shows file extensions
+                // it will be reflected in localiizedName. We only want the name itself.
+                let formattedName: String
+                if localizedName.hasSuffix(".app") {
+                    formattedName = String(localizedName[..<localizedName.lastIndex(of: ".")!])
+                } else {
+                    formattedName = localizedName
+                }
+                
                 guard let iconImage = resourceValues.effectiveIcon as? NSImage else {
                     continue
                 }
                 
-                let browser = Browser(url: url, name: name, localizedName: localizedName, identifier: bundleIdentifier, isSystemDefault: isDefault, iconImage: iconImage)
+                let browser = Browser(url: url, name: name, localizedName: formattedName, identifier: bundleIdentifier, isSystemDefault: isDefault, iconImage: iconImage)
                 allBrowsers.append(browser)
+                
+                if appendDefault && isDefault {
+                    allBrowsers.append(Browser(url: url, name: name, localizedName: formattedName, identifier: bundleIdentifier, isSystemDefault: false, iconImage: iconImage))
+                }
             }
         }
                 
@@ -58,17 +72,6 @@ extension NSWorkspace {
     /// - Returns: URLs to application bundles
     public func urlsForBrowsers() -> [URL] {
         return urlsForApplications(toOpen: URL(string: "https:")!).compactMap { (url: URL) -> URL? in
-            // Apple's own browser, does not follow their own guidelines, for becoming a default web browser.
-            // A shadow application, not located in the Applications folder, pops up. Also Safari does not
-            // contain a provision profile. Therefore it gets special attention.
-            if url.lastPathComponent.lowercased() == "safari.app" {
-                if FileManager.default.fileExists(atPath: "/Applications/Safari.app/") {
-                    return URL(filePath: "/Applications/Safari.app/", directoryHint: .isDirectory)
-                } else {
-                    return NSWorkspace.shared.urlForApplication(withBundleIdentifier: "com.apple.Safari")
-                }
-            }
-            
             guard let bundle = Bundle(url: url), let provisionProfileURL = bundle.provisionProfileURL else {
                 return nil
             }
