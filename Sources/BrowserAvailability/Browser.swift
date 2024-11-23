@@ -8,10 +8,8 @@ public struct Browser: Identifiable {
     public let isSystemDefault: Bool
     public let iconImage: NSImage
     
-    public var id: Int {
-        var hasher = Hasher()
-        hash(into: &hasher)
-        return hasher.finalize()
+    public var id: String {
+        return isSystemDefault ? identifier + ".default" : identifier
     }
     
     public init(url: URL, name: String, localizedName: String, identifier: String, isSystemDefault: Bool, iconImage: NSImage) {
