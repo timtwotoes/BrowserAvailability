@@ -2,7 +2,7 @@ import Foundation
 import Security
 
 /// Decode data encoded with CryptographicMessageSyntax wholesale
-func decode(message: Data) throws (CryptographicMessageSyntaxError) -> Data? {
+func decode(message: Data) throws (CryptographicMessageSyntaxError) -> Data {
     // Core Foundation types is managed by Swift Runtime
     var decoder: CMSDecoder?
     var errorCode: OSStatus = errSecSuccess
@@ -15,7 +15,7 @@ func decode(message: Data) throws (CryptographicMessageSyntaxError) -> Data? {
     
     // Read complete message into decoder
     let error = message.withUnsafeBytes { data in
-        let errorCode = CMSDecoderUpdateMessage(decoder!, data.baseAddress!, message.count)
+        let errorCode = CMSDecoderUpdateMessage(decoder!, data.baseAddress!, data.count)
             
         guard errorCode == errSecSuccess else {
             return Optional(CryptographicMessageSyntaxError(code: errorCode))
