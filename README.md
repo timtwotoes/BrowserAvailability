@@ -4,14 +4,6 @@ Detect available browsers on macOS and which is the default.
 
 ## Usage
 
-Example showing how to get all registered browsers.
-
-```swift
-import BrowserAvailability
-
-let bundles = NSWorkspace.shared.allRegisteredBrowsers()
-```
-
 Example showing how to get all browser URLs.
 
 ```swift
